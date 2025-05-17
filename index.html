@@ -10,7 +10,7 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <link rel="icon" type="image/x-icon" href="logo.png">
+    <link rel="icon" type="image/x-icon" href="logo.png" />
     <style>
       * {
         box-sizing: border-box;
@@ -28,11 +28,12 @@
         background: #1e1e2f;
         color: #e0e0e0;
       }
-      .logo{
+      .logo {
         display: block;
         width: 68px;
-        position: relative;
+        margin-bottom: 0.5rem;
       }
+
       .layout {
         display: grid;
         grid-template-columns: 2fr 2fr;
@@ -115,8 +116,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        max-width: 62.6vw;
-        min-height: 34vh;
+        max-width: 62vw;
+        min-height: 30vh;
         margin-left: auto;
         margin-right: auto;
         height: auto;
@@ -148,16 +149,34 @@
         right: 10px;
         z-index: 100;
       }
+
       @media (max-width: 768px) {
+        #analytics {
+          max-width: 90.6vw;
+          max-height: 60vh;
+        }
         .layout {
           grid-template-columns: 1fr;
+        }
+        .dark-b {
+          font-size: 8px;
         }
       }
     </style>
   </head>
   <body>
-    <button id="darkToggle">ON/OFF Dark Mode</button>
-    <h2 style="text-align: center"><img class="logo" src="./logo.png" />    Budget Finance Calculator</h2>
+    <button class="dark-b" id="darkToggle">ON/OFF Dark Mode</button>
+    <h2
+      style="
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      "
+    >
+      <img class="logo" src="./logo.png" alt="Logo" />
+      Budget Finance Calculator
+    </h2>
     <h5 style="text-align: center; color: #666">By Vishwash C V / Cospeld</h5>
     <div class="layout">
       <div>
