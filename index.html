@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Budget Finance App</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -13,7 +14,7 @@
     }
     body {
       margin: 0;
-      background: linear-gradient(to bottom, #694E75, #fff);
+      background: #f5f5f3;
       color: #222;
       padding: 1rem;
       height: 100vh;
@@ -29,20 +30,18 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 1rem;
-    }   
-    .card, .summary, .ad-space {
-      background: #f4f4f8;
+    }
+    .card, .summary {
+      background: #ffffff;
       border-radius: 12px;
       padding: 1rem;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
     .card {
-      background-image: linear-gradient(#ffffff, #5a58a0);
-      box-shadow: #222;
-      border: 2px solid rgb(131, 131, 131);
+      border-left: 4px solid #aca7c5;
     }
     .summary {
-      background: #e5e5ff;
+      background: #dfdce5;
       margin-bottom: 1rem;
     }
     .card h3, .summary h2 {
@@ -52,53 +51,23 @@
       display: flex;
       justify-content: space-between;
       margin: 0.5rem 0;
+      
     }
-    .input-row input {
-      width: 100px;
+    .input-row input, .dropdown input, .dropdown select {
       padding: 0.4rem;
       font-size: 1rem;
       border-radius: 6px;
       border: 1px solid #ccc;
-      background: #e9f9fa;
-    }
-    .dropdown {
-      margin-top: 1rem;
-    }
-    .dropdown select, .dropdown input {
-      padding: 0.5rem;
-      margin-right: 0.5rem;
-      font-size: 1rem;
+      background: #f8f8f8;
+      max-width: 6rem;
     }
     .highlight {
       font-weight: 600;
-      color: #4CAF50;
+      color: #3f2d6a;
     }
-    .ad-space {
-      height: 120px;
-      background: #ddd;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-weight: bold;
-      color: #555;
-    }
-    input {
-      padding: 0.7rem 1rem !important;
-      border: transparent !important;
-      background-color: #ffffff !important;
+    input, select {
       border-radius: 8px;
-      max-width: 14rem;
-    }
-    #period {
-      padding: 0.7rem !important;
-      border: transparent !important;
-      background-color: #ffffff !important;
-      border-radius: 8px;
-      max-width: 18rem;
-      margin-bottom: 1rem;
-    }
-    h2 {
-      color: white;
+      background-color: #ffffff;
     }
     #analytics {
       margin-top: 2rem;
@@ -106,11 +75,24 @@
       max-height: 300px;
       margin-left: auto;
       margin-right: auto;
-      background-image: linear-gradient(#ffffff, #5a58a0);
+      background: #e9e6f2;
       padding: 1rem;
       border-radius: 10px;
-      color: white !important;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      color: #222;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    button {
+      background-color: #585279;
+      color: white;
+      border: none;     
+      padding: 0.7rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 1rem;
+    }
+    button:hover {
+      background-color: #3d3552;
     }
     @media (max-width: 768px) {
       .layout {
@@ -121,13 +103,13 @@
 </head>
 <body>
   <h2 style="text-align:center">Budget Finance Calculator</h2>
-  <h5 style="text-align:center; color: white;">By Vishwash C V / Cospeld</h5>
+  <h5 style="text-align:center; color: #666;">By Vishwash C V / Cospeld</h5>
   <div class="layout">
     <div>
       <div class="cards">
         <div class="card">
           <h3>Time-based Spending</h3>
-          <div class="input-row"><span>6AM-12PM</span><input type="number" id="morning" value="0"></div>
+          <div class="input-row"><span>6AM-12PM</span> <input type="number" id="morning" value="0"></div>
           <div class="input-row"><span>12PM-4PM</span><input type="number" id="afternoon" value="0"></div>
           <div class="input-row"><span>4PM-7PM</span><input type="number" id="evening" value="0"></div>
           <div class="input-row"><span>7PM-6AM</span><input type="number" id="night" value="0"></div>
@@ -164,8 +146,8 @@
         <p>Remaining Balance: <span class="highlight" id="remaining">0</span></p>
         <p>Investment Saved: <span class="highlight" id="investPercent">0%</span></p>
         <p>Desire Saved: <span class="highlight" id="desirePercent">0%</span></p>
+        <button onclick="downloadPDF()">Download PDF</button>
       </div>
-      <div class="ad-space">Google Ad Placeholder</div>
     </div>
   </div>
 
@@ -184,9 +166,7 @@
         datasets: [{
           label: 'Spending Breakdown',
           data: [0, 0, 0, 0, 0, 0],
-          backgroundColor: [
-            '#4dc9f6', '#f67019', '#f53794', '#537bc4', '#acc236', '#166a8f'
-          ]
+          backgroundColor: ['#84a98c', '#cad2c5', '#52796f', '#354f52', '#2f3e46', '#8fbc8f']
         }]
       },
       options: {
@@ -228,6 +208,20 @@
 
       barChart.data.datasets[0].data = [morning, afternoon, evening, night, investment, desire];
       barChart.update();
+    }
+
+    async function downloadPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.setFontSize(16);
+      doc.text("Budget Finance Summary", 20, 20);
+      doc.setFontSize(12);
+      doc.text("Total Spending: " + document.getElementById("totalSpend").innerText, 20, 40);
+      doc.text("Total Deductions: " + document.getElementById("totalDeductions").innerText, 20, 50);
+      doc.text("Remaining Balance: " + document.getElementById("remaining").innerText, 20, 60);
+      doc.text("Investment Saved: " + document.getElementById("investPercent").innerText, 20, 70);
+      doc.text("Desire Saved: " + document.getElementById("desirePercent").innerText, 20, 80);
+      doc.save("finance_summary.pdf");
     }
 
     calculate();
