@@ -1,26 +1,47 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5394972206672113"
+    crossorigin="anonymous"></script>
+  <!-- BFC -->
+  <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-5394972206672113"
+    data-ad-slot="3256250505"></ins>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Budget Finance App</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link rel="icon" type="image/x-icon" href="logo.png" />
   <style>
-    body {
+    * {
+      box-sizing: border-box;
       font-family: "Inter", sans-serif;
+    }
+
+    body {
+      margin: 0;
       background: #f5f5f3;
       color: #222;
       padding: 1rem;
-      margin: 0;
+      height: 100vh;
+      transition: background 0.3s, color 0.3s;
     }
 
     body.dark {
       background: #1e1e2f;
       color: #e0e0e0;
+    }
+
+    .logo {
+      display: block;
+      width: 68px;
+      margin-bottom: 0.5rem;
     }
 
     .layout {
@@ -39,23 +60,46 @@
 
     .card,
     .summary {
-      background: white;
-      padding: 1rem;
+      background: #ffffff;
       border-radius: 12px;
+      padding: 1rem;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      transition: background 0.3s, color 0.3s;
+    }
+
+    body.dark .card,
+    body.dark .summary {
+      background: #2c2c3e;
+      color: #e0e0e0;
+    }
+
+    .card {
+      border-left: 4px solid #aca7c5;
     }
 
     .summary {
       background: #dfdce5;
+      margin-bottom: 1rem;
     }
 
-    .highlight {
-      font-weight: bold;
-      color: #5a3ca5;
+    body.dark .summary {
+      background: #3a3a4e;
     }
 
-    input,
-    select {
+    .card h3,
+    .summary h2 {
+      margin-top: 0;
+    }
+
+    .input-row {
+      display: flex;
+      justify-content: space-between;
+      margin: 0.5rem 0;
+    }
+
+    .input-row input,
+    .dropdown input,
+    .dropdown select {
       padding: 0.4rem;
       font-size: 1rem;
       border-radius: 6px;
@@ -64,14 +108,27 @@
       max-width: 6rem;
     }
 
-    button {
-      background: #585279;
-      color: white;
-      border: none;
-      padding: 0.7rem 1.5rem;
+    body.dark .input-row input,
+    body.dark .dropdown input,
+    body.dark .dropdown select {
+      background: #444;
+      color: #fff;
+      border: 1px solid #666;
+    }
+
+    .highlight {
+      font-weight: 600;
+      color: #3f2d6a;
+    }
+
+    body.dark .highlight {
+      color: #a6b5ff;
+    }
+
+    input,
+    select {
       border-radius: 8px;
-      cursor: pointer;
-      margin-top: 1rem;
+      background-color: #ffffff;
     }
 
     #analytics {
@@ -79,33 +136,91 @@
       padding: 1rem;
       border-radius: 10px;
       background: #e9e6f2;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
       display: flex;
       justify-content: center;
+      align-items: center;
+      max-width: 62vw;
+      min-height: 30vh;
+      margin-left: auto;
+      margin-right: auto;
+      height: auto;
+    }
+
+    body.dark #analytics {
+      background: #3d3d5c;
     }
 
     canvas {
       width: 100% !important;
       height: auto !important;
     }
+
+    button {
+      background-color: #585279;
+      color: white;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 1rem;
+    }
+
+    button:hover {
+      background-color: #3d3552;
+    }
+
+    #darkToggle {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 100;
+    }
+
+    @media (max-width: 768px) {
+      #analytics {
+        max-width: 90.6vw;
+        max-height: 30vh;
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .dark-b {
+        font-size: 8px;
+      }
+    }
+
+    .daysoft {
+      background: transparent;
+      color: purple;
+      border: none;
+    }
   </style>
 </head>
 
 <body>
-
-  <a href="terms.html" target="_blank">View Full Terms</a>
-
-  <button id="darkToggle" style="position: fixed; top: 10px; right: 10px">
-    Dark Mode
-  </button>
-
-  <h2 style="text-align: center">Budget Finance Calculator</h2>
+  <button class="dark-b" id="darkToggle">ON/OFF Dark Mode</button>
+  <h2 style="
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      ">
+    <img class="logo" src="./logo.png" alt="Logo" />
+    Budget Finance Calculator
+  </h2>
+  <h5 style="text-align: center; color: #666">By Vishwash C V / Cospeld</h5>
   <div class="layout">
     <div>
       <div class="cards">
         <div class="card">
           <h3>Time-based Spending</h3>
           <div class="input-row">
-            <span>6AM-12PM</span><input type="number" id="morning" value="0" />
+            <span>6AM-12PM</span>
+            <input type="number" id="morning" value="0" />
           </div>
           <div class="input-row">
             <span>12PM-4PM</span><input type="number" id="afternoon" value="0" />
@@ -117,42 +232,54 @@
             <span>7PM-6AM</span><input type="number" id="night" value="0" />
           </div>
         </div>
-
         <div class="card">
           <h3>Investment</h3>
           <div class="input-row">
             <span>Amount</span><input type="number" id="investment" value="0" />
           </div>
         </div>
-
         <div class="card">
           <h3>Desire Spending</h3>
           <div class="input-row">
             <span>Amount</span><input type="number" id="desire" value="0" />
           </div>
         </div>
-
         <div class="card">
           <h3>Revenue / Salary</h3>
-          <div class="input-row">
+
+          <div class="dropdown">
             <select id="period">
               <option value="daily">Daily</option>
               <option value="monthly">Monthly</option>
               <option value="yearly">Yearly</option>
             </select>
-            <input type="number" id="revenue" value="0" placeholder="Enter Amount" />
+            <input type="number" id="revenue" placeholder="Enter Amount" value="0" />
           </div>
+        </div>
+
+        <div class="card">
           <div class="input-row">
-            <span>Days in Month</span>
-            <select id="daysInMonth">
-              <option value="30">30</option>
-              <option value="31">31</option>
-            </select>
+            <span>Option of calculate are enter your data into input boxes to get
+              the results in section of values that shows in results page also
+              Daily as 24 Hours, Monthly as 30 Days and Yearly as 365 days
+            </span>
           </div>
+
+          <h3></h3>
+          <div class="dropdown"></div>
+        </div>
+
+        <div class="card">
+          <div class="input-row">
+            <span>The motivation of manage expenses spending without losing
+              monitoring of consciousness to calculate
+            </span>
+          </div>
+
+          <h3>@BFC (Budget Calculator)</h3>
         </div>
       </div>
     </div>
-
     <div>
       <div class="summary">
         <h2>Results</h2>
@@ -173,13 +300,11 @@
         <p>
           Desire Saved: <span class="highlight" id="desirePercent">0%</span>
         </p>
-
-        <button onclick="downloadPDF()">Download PDF</button>
-        <button onclick="downloadAnalyticsScreenshot()">
-          Download Analytics Image
-        </button>
-        <!-- Extra results inserted dynamically -->
       </div>
+      <button onclick="downloadPDF()">Download PDF</button>
+      <button onclick="downloadAnalyticsScreenshot()">
+        Download Analytics Image
+      </button>
     </div>
   </div>
 
@@ -187,7 +312,6 @@
     <canvas id="barChart" height="100"></canvas>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script>
     const inputs = [
       "morning",
@@ -198,9 +322,7 @@
       "desire",
       "revenue",
       "period",
-      "daysInMonth",
     ];
-
     inputs.forEach((id) =>
       document.getElementById(id).addEventListener("input", calculate)
     );
@@ -235,211 +357,165 @@
         responsive: true,
         maintainAspectRatio: false,
         scales: {
-          y: { beginAtZero: true },
+          y: {
+            beginAtZero: true,
+          },
         },
       },
     });
 
+    function calculate() {
+      const morning = +document.getElementById("morning").value;
+      const afternoon = +document.getElementById("afternoon").value;
+      const evening = +document.getElementById("evening").value;
+      const night = +document.getElementById("night").value;
+      const investment = +document.getElementById("investment").value;
+      const desire = +document.getElementById("desire").value;
+      const revenueRaw = +document.getElementById("revenue").value;
+      const period = document.getElementById("period").value;
 
+      // Auto detect days in current month
+      const today = new Date();
+      const currentYear = today.getFullYear();
+      const currentMonth = today.getMonth(); // 0-based
+      const daysInMonth = new Date(
+        currentYear,
+        currentMonth + 1,
+        0
+      ).getDate(); // 30 or 31
 
+      let revenue = revenueRaw;
+      if (period === "monthly") revenue = revenueRaw / daysInMonth;
+      else if (period === "yearly") revenue = revenueRaw / 365;
 
+      const totalSpend = morning + afternoon + evening + night;
+      const totalDeductions = totalSpend + investment + desire;
+      const remaining = revenue - totalDeductions;
 
+      const investPercent =
+        revenue > 0 ? Math.round((investment / revenue) * 100) : 0;
+      const desirePercent =
+        revenue > 0 ? Math.round((desire / revenue) * 100) : 0;
 
+      const monthlySpend = totalSpend * daysInMonth;
+      const yearlySpend = totalSpend * 365;
+      const monthlyDeductions = totalDeductions * daysInMonth;
+      const yearlyDeductions = totalDeductions * 365;
 
+      const yearlyRevenue = revenue * 365;
+      const dailyRevenue = revenue;
 
+      // Update standard display
+      document.getElementById("totalSpend").innerText = totalSpend.toFixed(2);
+      document.getElementById("totalDeductions").innerText =
+        totalDeductions.toFixed(2);
+      document.getElementById("remaining").innerText = remaining.toFixed(2);
+      document.getElementById("investPercent").innerText =
+        investPercent + "%";
+      document.getElementById("desirePercent").innerText =
+        desirePercent + "%";
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function calculate() {
-  const morning = +document.getElementById("morning").value;
-  const afternoon = +document.getElementById("afternoon").value;
-  const evening = +document.getElementById("evening").value;
-  const night = +document.getElementById("night").value;
-  const investment = +document.getElementById("investment").value;
-  const desire = +document.getElementById("desire").value;
-  const revenueRaw = +document.getElementById("revenue").value;
-  const period = document.getElementById("period").value;
-  const daysInMonth = +document.getElementById("daysInMonth").value;
-
-  const totalSpend = morning + afternoon + evening + night;
-  const totalDeductions = totalSpend + investment + desire;
-
-  let revenuePerDay = revenueRaw;
-  if (period === "monthly") {
-    revenuePerDay = revenueRaw / daysInMonth;
-  } else if (period === "yearly") {
-    revenuePerDay = revenueRaw / 365;
-  }
-
-  const revenuePerMonth = revenuePerDay * daysInMonth;
-  const revenuePerYear = revenuePerMonth * 12;
-  const remaining = revenuePerDay - totalDeductions;
-
-  const investPercent = revenuePerDay > 0 ? Math.round((investment / revenuePerDay) * 100) : 0;
-  const desirePercent = revenuePerDay > 0 ? Math.round((desire / revenuePerDay) * 100) : 0;
-
-  document.getElementById("totalSpend").innerText = totalSpend.toFixed(2);
-  document.getElementById("totalDeductions").innerText = totalDeductions.toFixed(2);
-  document.getElementById("remaining").innerText = remaining.toFixed(2);
-  document.getElementById("investPercent").innerText = investPercent + "%";
-  document.getElementById("desirePercent").innerText = desirePercent + "%";
-
-  // Add extended info if not already present
-  const summaryDiv = document.querySelector(".summary");
-  if (!document.getElementById("extraCalc")) {
-    const extra = document.createElement("div");
-    extra.id = "extraCalc";
-    extra.innerHTML = `
-      <hr>
-      <p><strong>🔁 Monthly & Yearly Calculations</strong></p>
-      <p>Spending (Monthly - ${daysInMonth} days): <span class="highlight" id="spendMonthly">0</span></p>
-      <p>Spending (Yearly): <span class="highlight" id="spendYearly">0</span></p>
-      <p>Revenue (Daily): <span class="highlight" id="revDaily">0</span></p>
-      <p>Revenue (Monthly): <span class="highlight" id="revMonthly">0</span></p>
-      <p>Revenue (Yearly): <span class="highlight" id="revYearly">0</span></p>
-      <p>💸 Investment Deduction: <span class="highlight" id="investDeduct">0</span></p>
-      <p>💡 Desire Deduction: <span class="highlight" id="desireDeduct">0</span></p>
-      <p>Total Deduction (Monthly): <span class="highlight" id="deductMonthly">0</span></p>
-      <p>Total Deduction (Yearly): <span class="highlight" id="deductYearly">0</span></p>
+      // Inject extra info AFTER download buttons
+      let summaryDiv = document.querySelector(".summary");
+      if (!document.getElementById("extraBreakdown")) {
+        const extraInfo = document.createElement("div");
+        extraInfo.id = "extraBreakdown";
+        extraInfo.innerHTML = `
+      <hr style="margin: 1rem 0;">
+      <p><strong>Daily Revenue:</strong> <span class="highlight" id="dailyRevenue">0</span></p>
+      <p><strong>Yearly Revenue:</strong> <span class="highlight" id="yearlyRevenue">0</span></p>
+      <p><strong>Monthly Spending (${daysInMonth} days):</strong> <span class="highlight" id="monthlySpend">0</span></p>
+      <p><strong>Yearly Spending:</strong> <span class="highlight" id="yearlySpend">0</span></p>
+      <p><strong>Monthly Deductions (${daysInMonth} days):</strong> <span class="highlight" id="monthlyDeduct">0</span></p>
+      <p><strong>Yearly Deductions:</strong> <span class="highlight" id="yearlyDeduct">0</span></p>
     `;
-    summaryDiv.appendChild(extra);
-  }
+        summaryDiv.appendChild(extraInfo);
+      }
 
-  // Update extended values
-  document.getElementById("spendMonthly").innerText = (totalSpend * daysInMonth).toFixed(2);
-  document.getElementById("spendYearly").innerText = (totalSpend * daysInMonth * 12).toFixed(2);
-  document.getElementById("revDaily").innerText = revenuePerDay.toFixed(2);
-  document.getElementById("revMonthly").innerText = revenuePerMonth.toFixed(2);
-  document.getElementById("revYearly").innerText = revenuePerYear.toFixed(2);
-  document.getElementById("investDeduct").innerText = investment.toFixed(2);
-  document.getElementById("desireDeduct").innerText = desire.toFixed(2);
-  document.getElementById("deductMonthly").innerText = (totalDeductions * daysInMonth).toFixed(2);
-  document.getElementById("deductYearly").innerText = (totalDeductions * daysInMonth * 12).toFixed(2);
+      // Fill values
+      document.getElementById("dailyRevenue").innerText =
+        dailyRevenue.toFixed(2);
+      document.getElementById("yearlyRevenue").innerText =
+        yearlyRevenue.toFixed(2);
+      document.getElementById("monthlySpend").innerText =
+        monthlySpend.toFixed(2);
+      document.getElementById("yearlySpend").innerText =
+        yearlySpend.toFixed(2);
+      document.getElementById("monthlyDeduct").innerText =
+        monthlyDeductions.toFixed(2);
+      document.getElementById("yearlyDeduct").innerText =
+        yearlyDeductions.toFixed(2);
 
-  // Update chart
-  barChart.data.datasets[0].data = [
-    morning,
-    afternoon,
-    evening,
-    night,
-    investment,
-    desire,
-  ];
-  barChart.update();
-}
+      // Update chart
+      barChart.data.datasets[0].data = [
+        morning,
+        afternoon,
+        evening,
+        night,
+        investment,
+        desire,
+      ];
+      barChart.update();
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    function downloadPDF() {
+    async function downloadPDF() {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
       doc.setFontSize(16);
       doc.text("Budget Finance Summary", 20, 20);
       doc.setFontSize(12);
-
-      const rows = [
-        ["Total Spending", document.getElementById("totalSpend").innerText],
-        [
-          "Total Deductions",
-          document.getElementById("totalDeductions").innerText,
-        ],
-        ["Remaining", document.getElementById("remaining").innerText],
-        ["Investment %", document.getElementById("investPercent").innerText],
-        ["Desire %", document.getElementById("desirePercent").innerText],
-      ];
-
-      if (document.getElementById("extraCalc")) {
-        rows.push([
-          "Spending Monthly",
-          document.getElementById("spendMonthly").innerText,
-        ]);
-        rows.push([
-          "Spending Yearly",
-          document.getElementById("spendYearly").innerText,
-        ]);
-        rows.push([
-          "Revenue Daily",
-          document.getElementById("revDaily").innerText,
-        ]);
-        rows.push([
-          "Revenue Monthly",
-          document.getElementById("revMonthly").innerText,
-        ]);
-        rows.push([
-          "Revenue Yearly",
-          document.getElementById("revYearly").innerText,
-        ]);
-        rows.push([
-          "Investment Deduction",
-          document.getElementById("investDeduct").innerText,
-        ]);
-        rows.push([
-          "Desire Deduction",
-          document.getElementById("desireDeduct").innerText,
-        ]);
-        rows.push([
-          "Deductions Monthly",
-          document.getElementById("deductMonthly").innerText,
-        ]);
-        rows.push([
-          "Deductions Yearly",
-          document.getElementById("deductYearly").innerText,
-        ]);
-      }
-
-      rows.forEach((row, i) => {
-        doc.text(`${row[0]}: ${row[1]}`, 20, 40 + i * 10);
-      });
-
+      doc.text(
+        "Total Spending: " + document.getElementById("totalSpend").innerText,
+        20,
+        40
+      );
+      doc.text(
+        "Total Deductions: " +
+        document.getElementById("totalDeductions").innerText,
+        20,
+        50
+      );
+      doc.text(
+        "Remaining Balance: " +
+        document.getElementById("remaining").innerText,
+        20,
+        60
+      );
+      doc.text(
+        "Investment Saved: " +
+        document.getElementById("investPercent").innerText,
+        20,
+        70
+      );
+      doc.text(
+        "Desire Saved: " + document.getElementById("desirePercent").innerText,
+        20,
+        80
+      );
       doc.save("finance_summary.pdf");
     }
 
+    document.getElementById("darkToggle").onclick = function () {
+      var body = document.body;
+      if (body.className.indexOf("dark") !== -1) {
+        body.className = body.className.replace("dark", "").trim();
+      } else {
+        body.className += " dark";
+      }
+    };
+
+    calculate();
+
+    // Load html2canvas
+    const html2canvasScript = document.createElement("script");
+    html2canvasScript.src =
+      "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
+    document.head.appendChild(html2canvasScript);
+
+    // Function to download analytics chart as image
     function downloadAnalyticsScreenshot() {
-      html2canvas(document.getElementById("analytics")).then((canvas) => {
+      const chartElement = document.getElementById("analytics");
+      html2canvas(chartElement).then((canvas) => {
         const link = document.createElement("a");
         link.download = "analytics_chart.png";
         link.href = canvas.toDataURL();
@@ -447,11 +523,6 @@ function calculate() {
       });
     }
 
-    document.getElementById("darkToggle").addEventListener("click", () => {
-      document.body.classList.toggle("dark");
-    });
-
-    calculate();
 
 
 
@@ -462,8 +533,170 @@ function calculate() {
 
 
 
-    
+
+
+
+
+
+
+
+
+
+
+
+
+    function acceptTerms() {
+      document.getElementById("termsGate").style.display = "none";
+    }
+
+    function declineTerms() {
+      alert("You must accept the terms to use this application.");
+      window.location.href = ""; // or close tab
+    }
+
+    window.onload = () => {
+      document.getElementById("termsGate").style.display = "flex";
+    };
   </script>
+
+  <div id="termsGate" style="
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      ">
+    <div style="
+          background: white;
+          padding: 30px;
+          border-radius: 10px;
+          width: 90%;
+          max-width: 500px;
+          text-align: center;
+        ">
+      <h2>Accept Terms & Conditions</h2>
+      <p>
+        By continuing, you agree to our
+        <a href="#" onclick="document.getElementById('popupModal').style.display='block'">Terms & Conditions</a>
+        and Privacy Policy.
+      </p>
+      <button onclick="acceptTerms()">Continue</button>
+      <button onclick="declineTerms()" style="margin-left: 10px; background: gray">
+        Decline
+      </button>
+    </div>
+  </div>
+
+  <!-- Footer trigger button -->
+  <div style="
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        font-size: 12px;
+        z-index: 100;
+      ">
+    <button onclick="document.getElementById('popupModal').style.display='block'">
+      Terms & Privacy
+    </button>
+  </div>
+
+  <!-- Modal Popup -->
+  <div id="popupModal" style="
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.6);
+      ">
+    <div style="
+          background-color: #fff;
+          margin: 10% auto;
+          padding: 20px;
+          border-radius: 10px;
+          width: 90%;
+          max-width: 600px;
+        ">
+      <span style="float: right; cursor: pointer; font-size: 18px"
+        onclick="document.getElementById('popupModal').style.display='none'">&times;</span>
+      <h3>Terms & Conditions</h3>
+      <p>
+        Terms & Conditions
+        Effective Date: 18 May 2025
+        <br /><br />
+        Welcome to Budget Finance Calculator. By using this application, you agree to be bound by the following terms
+        and conditions:
+        <br /><br />
+        <b>Use of the App</b>
+        This is a client-side tool intended solely for personal budgeting and financial visualization.
+        <br /><br />
+        Users are responsible for ensuring the accuracy of the data they input.
+        <br /><br />
+        The app is provided "as is" without any guarantees of accuracy, reliability, or fitness for a particular
+        purpose.
+        <br /><br />
+        <b>Restrictions</b>
+        You may not misuse the app or use it for unlawful activities.
+        <br /><br />
+        Redistribution, resale, or reproduction of any part of the application without prior written permission is
+        prohibited.
+        <br /><br />
+        <b>Intellectual Property</b>
+        All content and code are owned by Vishwash C V / Cospeld unless otherwise stated.
+        <br /><br />
+        <b>Disclaimer</b>
+        We do not provide financial, legal, or investment advice.
+
+        No liability is accepted for decisions made using the app.
+        <br /><br />
+        <b>Modifications</b>
+        We reserve the right to change these terms at any time. Continued use implies acceptance of updated terms.
+
+      </p>
+      <h3>Privacy Policy</h3>
+      <p>
+        Privacy Policy
+        Effective Date: 18 May 2025
+        <br /><br />
+        Budget Finance Calculator values your privacy. This app is built to respect your data:
+        <br /><br />
+        <b>No Data Collection</b>
+
+        We do not collect, store, or transmit any personal or financial data.
+        <br /><br />
+        All calculations are done in your browser and are not sent to any server.
+        <br /><br />
+        <b>Cookies and Analytics</b>
+
+        The app uses Google AdSense for advertising. Google may collect anonymous usage data (e.g., via cookies or IP
+        address) in accordance with their Privacy Policy.
+        <br /><br />
+        You can manage your ad personalization settings at Google Ads Settings.
+        <br /><br />
+        <b>hird-Party Services</b>
+
+        We embed services like Google AdSense, which may use cookies or similar technologies.
+        <br /><br />
+        We recommend reviewing their respective policies for more details.
+        <br /><br />
+        <b>Children’s Privacy</b>
+
+        This app is not directed to children under 13. We do not knowingly collect any information from minors.
+
+      </p>
+      <p style="text-align: right; font-style: italic">
+        Created by Vishwash C V / Cospeld
+      </p>
+    </div>
+  </div>
 </body>
 
 </html>
